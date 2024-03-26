@@ -1,0 +1,9 @@
+.home-page {
+  gap: 30px;
+  background-color: #acbabd;
+}
+
+.navigate-btn {
+  padding: 20px;
+  border: 4px solid #313a43;
+}

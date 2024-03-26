@@ -3,6 +3,7 @@ import "./styles/colors.css";
 import "./styles/index.css";
 
 import Weather from "./pages/Weather";
+import Home from "./pages/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
       </header>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Home />}></Route>
           <Route path="/weather" element={<Weather />}></Route>
         </Routes>
       </BrowserRouter>

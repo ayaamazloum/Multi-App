@@ -2,7 +2,7 @@ import "./style.css";
 
 const Weather = () => {
     return (
-        <div className="weather-page flex center">
+        <div className="weather-page full-height full-width flex center">
             <div className="weather-box rounded flex column center">
                 <p>Baalbek</p>
                 <p>date</p>
