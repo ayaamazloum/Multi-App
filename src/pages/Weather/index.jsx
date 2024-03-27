@@ -3,74 +3,85 @@ import "./style.css";
 import { useEffect, useState } from "react";
 
 const Weather = () => {
-    const [weather, setweather] = useState([]);
-
     const [city, setCity] = useState();
     const [countryCode, setCountryCode] = useState();
+    const [currentDay, setCurrentDay] = useState();
+    const [days, setDays] = useState([]);
+    const [selected, setSelected] = useState(0);
+
+    const getDay = (date) => {
+        const dayOfWeek = new Date(date).getDay();
+        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const dayName = daysOfWeek[dayOfWeek];
+        console.log(dayName);
+        return dayName.slice(0,3);
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const options = { month: 'short', day: 'numeric', year: 'numeric' };
+        return date.toLocaleDateString('en-US', options);
+    };
 
     useEffect(() => {
-
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const formData = new FormData();
-                    formData.append('latitude', position.coords.latitude);
-                    formData.append('longitude', position.coords.longitude);
-                    formData.append('key', 'd3ad8e2bd18d4eadbfe401334be35952');
-                    formData.append('days', 4);
-                    
-                    fetch(`https://api.weatherbit.io/v2.0/forecast/daily?key=d3ad8e2bd18d4eadbfe401334be35952&lat=${position.coords.latitude}&lon=${position.coords.longitude}&days=4`)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data);
-                        setCity(data.city);
-                        setCountryCode(data.countryCode);
-                    })
-                    .catch(error => console.error('Error fetching location:', error));
-                },
-                (error) => {
-                    console.error('Error getting location:', error);
-                }
-            );
-        } else {
-            console.error('Geolocation is not supported by this browser.');
+        const fetchWeather = () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    async (position) => { 
+                    try {
+                        const response = await fetch(`https://api.weatherbit.io/v2.0/forecast/daily?key=d3ad8e2bd18d4eadbfe401334be35952&lat=${position.coords.latitude}&lon=${position.coords.longitude}&days=3`);
+                        const data = await response.json();
+                        setCity(data.city_name);
+                        setCountryCode(data.country_code);
+                        setCurrentDay(data.data[0]);
+                        setDays(data.data);
+                        console.log(currentDay);
+                    } catch (error) {
+                        console.error('There was a problem with your fetch operation:', error);
+                    }
+                    },
+                    (error) => { console.error('Error getting location:', error); }
+                );
+            } else {
+                console.error('Geolocation is not supported by this browser.');
+            }
         }
-  }, []);
-
+        fetchWeather();
+    }, []);
 
     return (
         <div className="weather-page full-height full-width flex center">
             <div className="weather-box rounded flex column center">
-                <p>Baalbek</p>
-                <p>date</p>
+                <p>{city}, {countryCode}</p>
+                <p>{getDay(currentDay.datetime)}</p>
                 <div className="day-details flex row center">
                     <div className="flex column center">
-                        <p>icon</p>
-                        <p>weather desc</p>
+                        <p>{currentDay.weather.icon}</p>
+                        <i class="fas fa-c03d"></i>
+                        <p className="desc bold">{currentDay.weather.description}</p>
                     </div>
-                    <p>temp</p>
-                    <div className="flex column">
-                        <p>details</p>
-                        <p>details</p>
-                        <p>details</p>
+                    <p>{currentDay.temp} °C</p>
+                    <div className="current-day flex column">
+                        <p><span className="bold">Wind:</span> { currentDay.wind_spd } kmph</p>
+                        <p><span className="bold">Precip:</span> { currentDay.precip } mm</p>
+                        <p><span className="bold">Pressure:</span> { currentDay.wind_spd } mb</p>
                     </div>
                 </div>
-            <div className="days flex row center">
-                    <div className="day flex column center">
-                        <p>day</p>
-                        <p>icon</p>
-                        <p>temperature</p>
-                    </div>
-                    <div className="day flex column center">
-                        <p>day</p>
-                        <p>icon</p>
-                        <p>temperature</p>
-                    </div>
-                    <div className="day flex column center">
-                        <p>day</p>
-                        <p>icon</p>
-                        <p>temperature</p>
-                    </div>
+                <div className="days flex row center">
+                    {days.map((day, index) => {
+                        return (
+                            <div
+                                className={selected==index?"day selected rounded flex column center":"day rounded flex column center"}
+                                onClick={() => {
+                                    setSelected(index);
+                                    setCurrentDay(days[index]);
+                                }}>
+                                <p>{ formatDate(day.datetime) }</p>
+                                <p>icon</p>
+                                <p>{day.temp} °C</p>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </div>
