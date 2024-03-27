@@ -6,4 +6,5 @@
 .navigate-btn {
   padding: 20px;
   border: 4px solid #313a43;
+  cursor: pointer;
 }
