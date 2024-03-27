@@ -5,7 +5,7 @@
 }
 
 .weather-box {
-  background-color: #1b3d5a;
+  background-color: #082946;
   color: #fff;
   padding: 20px 30px;
   border: #b4b8bc 4px solid;
@@ -21,7 +21,7 @@
 }
 
 .days {
-  margin-top: 30px;
+  margin-top: 50px;
   gap: 50px;
 }
 
@@ -36,9 +36,25 @@
 }
 
 .selected {
-  background-color: #b4b8bc66;
+  background-color: #b4b8bc36;
 }
 
-.desc {
+.large-text {
   font-size: 20px;
+}
+
+.larger-text {
+  font-size: 24px;
+}
+
+.weather-icon {
+  width: 20px;
+}
+
+.weather-icon {
+  width: 50px;
+}
+
+.temp {
+  font-size: 22px;
 }

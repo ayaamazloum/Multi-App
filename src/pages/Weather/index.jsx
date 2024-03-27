@@ -13,7 +13,6 @@ const Weather = () => {
         const dayOfWeek = new Date(date).getDay();
         const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         const dayName = daysOfWeek[dayOfWeek];
-        console.log(dayName);
         return dayName.slice(0,3);
     };
 
@@ -35,7 +34,6 @@ const Weather = () => {
                         setCountryCode(data.country_code);
                         setCurrentDay(data.data[0]);
                         setDays(data.data);
-                        console.log(currentDay);
                     } catch (error) {
                         console.error('There was a problem with your fetch operation:', error);
                     }
@@ -52,18 +50,17 @@ const Weather = () => {
     return (
         <div className="weather-page full-height full-width flex center">
             <div className="weather-box rounded flex column center">
-                <p>{city}, {countryCode}</p>
-                <p>{getDay(currentDay.datetime)}</p>
+                <p className="larger-text bold">{city}</p>
+                <p className="large-text bold">{getDay(currentDay.datetime)}</p>
                 <div className="day-details flex row center">
                     <div className="flex column center">
-                        <p>{currentDay.weather.icon}</p>
-                        <i class="fas fa-c03d"></i>
-                        <p className="desc bold">{currentDay.weather.description}</p>
+                        <img className="weather-icon-current" src={require("../../assets/icons/"+currentDay.weather.icon+".png")}/>
+                        <p className="large-text bold">{currentDay.weather.description}</p>
                     </div>
-                    <p>{currentDay.temp} °C</p>
+                    <p className="temp bold">{currentDay.temp} °C</p>
                     <div className="current-day flex column">
                         <p><span className="bold">Wind:</span> { currentDay.wind_spd } kmph</p>
-                        <p><span className="bold">Precip:</span> { currentDay.precip } mm</p>
+                        <p><span className="bold">Precip:</span> { parseFloat(currentDay.precip.toFixed(3)) } mm</p>
                         <p><span className="bold">Pressure:</span> { currentDay.wind_spd } mb</p>
                     </div>
                 </div>
@@ -76,8 +73,8 @@ const Weather = () => {
                                     setSelected(index);
                                     setCurrentDay(days[index]);
                                 }}>
-                                <p>{ formatDate(day.datetime) }</p>
-                                <p>icon</p>
+                                <p className="bold">{ formatDate(day.datetime) }</p>
+                                <img className="weather-icon" src={require("../../assets/icons/"+day.weather.icon+".png")}/>
                                 <p>{day.temp} °C</p>
                             </div>
                         );
