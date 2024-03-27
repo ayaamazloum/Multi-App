@@ -29,6 +29,7 @@
   gap: 10px;
   padding: 10px;
   cursor: pointer;
+  min-width: 120px;
 }
 
 .day:hover {

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 const Weather = () => {
     const [city, setCity] = useState();
-    const [countryCode, setCountryCode] = useState();
     const [currentDay, setCurrentDay] = useState();
     const [days, setDays] = useState([]);
     const [selected, setSelected] = useState(0);
@@ -31,7 +30,6 @@ const Weather = () => {
                         const response = await fetch(`https://api.weatherbit.io/v2.0/forecast/daily?key=d3ad8e2bd18d4eadbfe401334be35952&lat=${position.coords.latitude}&lon=${position.coords.longitude}&days=3`);
                         const data = await response.json();
                         setCity(data.city_name);
-                        setCountryCode(data.country_code);
                         setCurrentDay(data.data[0]);
                         setDays(data.data);
                     } catch (error) {
@@ -47,7 +45,7 @@ const Weather = () => {
         fetchWeather();
     }, []);
 
-    return (
+    return ( currentDay &&
         <div className="weather-page full-height full-width flex center">
             <header className="app-header flex row center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-cloud"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" /></svg>
@@ -77,7 +75,7 @@ const Weather = () => {
                                     setSelected(index);
                                     setCurrentDay(days[index]);
                                 }}>
-                                <p className="bold">{ formatDate(day.datetime) }</p>
+                                <p className="bold">{ index==0? "Today" : formatDate(day.datetime) }</p>
                                 <img className="weather-icon" src={require("../../assets/icons/"+day.weather.icon+".png")}/>
                                 <p>{day.temp} °C</p>
                             </div>
