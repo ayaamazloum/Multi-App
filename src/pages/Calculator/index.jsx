@@ -15,7 +15,27 @@ const Calculator = () => {
                 break;
             case "AC":
                 setExpression("");
-                break;  
+                break;
+            case "+":
+                isNaN(parseInt(expression.slice(-1))) ? setExpression(expression.substring(0, expression.length - 1) + value)
+                    :setExpression(expression + value);
+                break;
+            case "-":
+                isNaN(parseInt(expression.slice(-1))) ? setExpression(expression.substring(0, expression.length - 1) + value)
+                    :setExpression(expression + value);
+                break;
+            case "*":
+                isNaN(parseInt(expression.slice(-1))) ? setExpression(expression.substring(0, expression.length - 1) + value)
+                    :setExpression(expression + value);
+                break;
+            case "/":
+                isNaN(parseInt(expression.slice(-1))) ? setExpression(expression.substring(0, expression.length - 1) + value)
+                    :setExpression(expression + value);
+                break;
+            case "%":
+                isNaN(parseInt(expression.slice(-1))) ? setExpression(expression.substring(0, expression.length - 1) + value)
+                    :setExpression(expression + value);
+                break;
             case "0":
                 !isAnswer && !isNaN(parseInt(expression.slice(-1))) && setExpression(expression + "0");
                 break;
@@ -24,13 +44,11 @@ const Calculator = () => {
                 isAnswer ? setExpression(value) : setExpression(expression + value);
                 break;
         }
-        console.log(expression);
     };
     
     const evaluate = () => {
-        setExpression(eval(expression));
+        setExpression(String(eval(expression)));
         setIsAnswer(true);
-        console.log(expression);
     };
     return (
         <div className='calculator-page full-width full-height flex center'>
