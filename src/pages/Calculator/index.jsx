@@ -1,59 +1,55 @@
 import './style.css';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Calculator = () => {
     const [expression, setExpression] = useState("");
-    const [answer, setAnswer] = useState();
     const [isAnswer, setIsAnswer] = useState(false);
 
     const handleButtonClick = (value) => {
-        console.log(isAnswer);
-        switch (value) {
-            case "delete":
-                !isAnswer && setExpression(expression.substring(0, expression.length - 1))
-                break;
-            case "AC":
-                setExpression("");
-                break;
-            case "+":
-                isNaN(parseInt(expression.slice(-1))) ? setExpression(expression.substring(0, expression.length - 1) + value)
-                    :setExpression(expression + value);
-                break;
-            case "-":
-                isNaN(parseInt(expression.slice(-1))) ? setExpression(expression.substring(0, expression.length - 1) + value)
-                    :setExpression(expression + value);
-                break;
-            case "*":
-                isNaN(parseInt(expression.slice(-1))) ? setExpression(expression.substring(0, expression.length - 1) + value)
-                    :setExpression(expression + value);
-                break;
-            case "/":
-                isNaN(parseInt(expression.slice(-1))) ? setExpression(expression.substring(0, expression.length - 1) + value)
-                    :setExpression(expression + value);
-                break;
-            case "%":
-                isNaN(parseInt(expression.slice(-1))) ? setExpression(expression.substring(0, expression.length - 1) + value)
-                    :setExpression(expression + value);
-                break;
-            case "0":
-                !isAnswer && !isNaN(parseInt(expression.slice(-1))) && setExpression(expression + "0");
-                break;
-            default:
-                setIsAnswer(false);
-                isAnswer ? setExpression(value) : setExpression(expression + value);
-                break;
+        if (/^[\+\-\*\/\%]$/.test(value)) {
+            if (expression == "")
+                return;
+            isNaN(parseInt(expression.slice(-1))) ? setExpression(expression.substring(0, expression.length - 1) + value)
+                : setExpression(expression + value);
+        }
+        else {
+            switch (value) {
+                case "delete":
+                    !isAnswer && setExpression(expression.substring(0, expression.length - 1))
+                    break;
+                case "AC":
+                    setExpression("");
+                    break;
+                case "0":
+                    !isAnswer && !isNaN(parseInt(expression.slice(-1))) && setExpression(expression + "0");
+                    break;
+                default:
+                    setIsAnswer(false);
+                    isAnswer ? setExpression(value) : setExpression(expression + value);
+                    break;
+            }
         }
     };
     
     const evaluate = () => {
+        if (/^[\+\-\*\/\%]$/.test(expression.slice(-1)))
+            return;
         setExpression(String(eval(expression)));
         setIsAnswer(true);
     };
+
+    const handleKeyPress = (e) => {
+        if (/^\d$/.test(e.key) || /^[\+\-\*\/\%]$/.test(e.key))
+            handleButtonClick(e.key);
+    }
+
+    document.addEventListener('keydown', (e) => handleKeyPress(e));
+
     return (
         <div className='calculator-page full-width full-height flex center'>
             <div className='calc-box rounded flex column'>
-                <input className='exp-input white-text' type='text' value={expression=="" ? 0 : expression} />
+                <input className='exp-input white-text' type='text' value={expression == "" ? 0 : expression} />
                 <div className='buttons-container flex column'>
                     <div className="buttons-row flex row">
                         <button className='btn flex center grey-bg bold' onClick={()=>handleButtonClick("delete")}><svg className='delete-icon' height={24} width={24} xmlns="http://www.w3.org/2000/svg"viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-delete"><path d="M20 5H9l-7 7 7 7h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Z"/><line x1="18" x2="12" y1="9" y2="15"/><line x1="12" x2="18" y1="9" y2="15"/></svg></button>
