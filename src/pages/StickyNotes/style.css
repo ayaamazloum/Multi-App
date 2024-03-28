@@ -17,6 +17,10 @@
   background-color: transparent;
   font-size: 20px;
   color: #986b27;
+  width: 180px;
+  height: 160px;
+  resize: none;
+  overflow: hidden;
 }
 
 .text-input:focus {
@@ -26,6 +30,9 @@
 .note {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  position: absolute;
+  top: 25%;
+  left: 30%;
   width: 200px;
   height: 200px;
   background-color: #ffff47;
