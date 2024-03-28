@@ -9,7 +9,7 @@ const Home = () => {
         <div className="home-page full-height full-width flex row center">
             <button className="navigate-btn bold rounded" onClick={()=>navigate("/weather")}>Weather App</button>
             <button className="navigate-btn bold rounded" onClick={()=>navigate("/calculator")}>Calculator App</button>
-            <button className="navigate-btn bold rounded" onClick={()=>navigate("/")}>Sticky Notes App</button>
+            <button className="navigate-btn bold rounded" onClick={()=>navigate("/stickynotes")}>Sticky Notes App</button>
         </div>
     );
 };

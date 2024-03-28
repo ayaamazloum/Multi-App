@@ -1,0 +1,78 @@
+.notes-page {
+  background-color: #dea731;
+}
+
+.add-icon {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  transition: color 0.15s linear;
+}
+
+.add-icon:hover {
+  color: #fff;
+}
+
+.text-input {
+  background-color: transparent;
+  font-size: 20px;
+  color: #ad6e0e;
+}
+
+.text-input:focus {
+  outline: none;
+}
+
+.note {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  width: 200px;
+  height: 200px;
+  background-color: #ffff47;
+  font-size: 20px;
+  padding: 5px;
+  box-shadow: 5px 5px 15px 0 rgba(0, 0, 0, 0.2);
+  cursor: -webkit-grab;
+}
+
+.note:active {
+  cursor: -webkit-grabbing;
+}
+
+.note-content {
+  position: relative;
+}
+
+.note-content:hover > .edit-icon,
+.note-content:hover > .save-icon,
+.note-content:hover > .delete-icon {
+  opacity: 1;
+}
+
+.edit-icon,
+.save-icon {
+  position: absolute;
+  bottom: 5px;
+  right: 40px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.25s linear;
+}
+
+.edit-icon:hover,
+.save-icon:hover {
+  color: #fbab34;
+}
+
+.delete-icon {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.25s linear;
+}
+
+.delete-icon:hover {
+  color: #d31a1a;
+}
