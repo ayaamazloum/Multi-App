@@ -20,28 +20,29 @@ const Weather = () => {
         const options = { month: 'short', day: 'numeric', year: 'numeric' };
         return date.toLocaleDateString('en-US', options);
     };
+    
+    const fetchWeather = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                async (position) => { 
+                try {
+                    const response = await fetch(`https://api.weatherbit.io/v2.0/forecast/daily?key=d3ad8e2bd18d4eadbfe401334be35952&lat=${position.coords.latitude}&lon=${position.coords.longitude}&days=3`);
+                    const data = await response.json();
+                    setCity(data.city_name);
+                    setCurrentDay(data.data[0]);
+                    setDays(data.data);
+                } catch (error) {
+                    console.error('There was a problem with your fetch operation:', error);
+                }
+                },
+                (error) => { console.error('Error getting location:', error); }
+            );
+        } else {
+            console.error('Geolocation is not supported by this browser.');
+        }
+    }
 
     useEffect(() => {
-        const fetchWeather = () => {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    async (position) => { 
-                    try {
-                        const response = await fetch(`https://api.weatherbit.io/v2.0/forecast/daily?key=d3ad8e2bd18d4eadbfe401334be35952&lat=${position.coords.latitude}&lon=${position.coords.longitude}&days=3`);
-                        const data = await response.json();
-                        setCity(data.city_name);
-                        setCurrentDay(data.data[0]);
-                        setDays(data.data);
-                    } catch (error) {
-                        console.error('There was a problem with your fetch operation:', error);
-                    }
-                    },
-                    (error) => { console.error('Error getting location:', error); }
-                );
-            } else {
-                console.error('Geolocation is not supported by this browser.');
-            }
-        }
         fetchWeather();
     }, []);
 
