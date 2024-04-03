@@ -37,8 +37,14 @@ const StickyNotes = () => {
     };
 
     useEffect(() => {
-        //localStorage.setItem("notes", JSON.stringify([{ id: 0, text: "New Note!", editing: false },{ id: 1, text: "New Note!", editing: false },{ id: 2, text: "New Note!", editing: false },{ id: 3, text: "New Note!", editing: false }]));
-        setNotes(JSON.parse(localStorage.getItem("notes")));
+        const storedNotes = localStorage.getItem('notes');
+        if (storedNotes) {
+            setNotes(JSON.parse(storedNotes));
+        }
+        else {
+            localStorage.setItem('notes', JSON.stringify([]));
+            setNotes([]);
+        }
     }, []);
 
     return (
